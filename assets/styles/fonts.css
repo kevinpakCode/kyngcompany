@@ -1,0 +1,25 @@
+/*----EXO2-----*/
+@font-face {
+	font-family: Exo-Bold;
+	src: local("Exo-Bold"), url('./../fonts/Exo-2/EXO2-BOLD.TTF');
+}
+@font-face {
+	font-family: Exo-Semi-Bold;
+	src: local("Exo-Semi-Bold"), url('./../fonts/Exo-2/EXO2-SEMIBOLD.TTF');
+}
+@font-face {
+	font-family: Exo-Medium;
+	src: local("Exo-Medium"), url('./../fonts/Exo-2/EXO2-MEDIUM.TTF');
+}
+@font-face {
+	font-family: Exo-Regular;
+	src: local("Exo-Regular"), url('./../fonts/Exo-2/EXO2-REGULAR.TTF'); 
+}
+@font-face {
+	font-family: Exo-Italic;
+	src: local("Exo-Italic"), url('./../fonts/Exo-2/EXO2-ITALIC.TTF'); 
+}
+@font-face {
+	font-family: Exo-Light;
+	src: local("ExoLight"), url('./../fonts/Exo-2/EXO2-LIGHT.TTF'); 
+}

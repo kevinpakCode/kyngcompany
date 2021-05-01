@@ -49,6 +49,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'welcome';
-$route['404_override'] = '';
+//$this->set_directory("admin");
+$route['default_controller'] = 'core';
+
+//Clients
+$route['clients'] = 'clients/clients';
+$route['clients/(:any)'] = 'clients/$1';
+$route['clients/(:any)/([0-9]+)'] = 'clients/$1';
+$route['clients/(:any)/([0-9]+)/([0-9]+)'] = 'clients/$1';
+$route['clients/(:any)/([0-9]+)/([0-9]+)/([0-9]+)'] = 'clients/$1';
+$route['clients/(:any)/(:any)'] = 'clients/$1/$2';
+
+//Admin
+$route['admin'] = 'admin/admin';
+$route['admin/dashboard'] = 'admin/admin/dashboard';
+$route['admin/(:any)'] = 'admin/$1';
+$route['admin/(:any)/(:num)'] = 'admin/$1/index/$2';
+$route['admin/(:any)/([0-9]+)/([0-9]+)'] = 'admin/$1/$2/$3';
+$route['admin/(:any)/([0-9]+)/([0-9]+)/([0-9]+)'] = 'admin/$1/$2/$3/$4';
+$route['admin/(:any)/(:any)'] = 'admin/$1/$2';
+$route['admin/(:any)/(:any)/(:num)'] = 'admin/$1/$2/$3';
+
+//Users
+$route['users'] = 'users/users';
+$route['users/(:any)'] = 'users/$1';
+$route['users/(:any)/([0-9]+)'] = 'users/$1';
+$route['users/(:any)/([0-9]+)/([0-9]+)'] = 'users/$1';
+$route['users/(:any)/([0-9]+)/([0-9]+)/([0-9]+)'] = 'users/$1';
+$route['users/(:any)/(:any)'] = 'users/$1/$2';
+
+$route['logout'] = 'spw/logout';
+$route['home'] = 'spw/home';
+$route['(:any)'] = '$1';
+$route['(:any)/([0-9]+)'] = '$1';
+
+$route['(:any)/(:any)'] = '$1/$2';
+$route['(:any)/(:any)/(:any)'] = '$1/$2/$3';
+$route['(:any)/(:any)/([0-9]+)'] = '$1/$2/$3';
+$route['(:any)/(:any)/([0-9]+)/([0-9]+)'] = '$1/$2/$3/$4';
+
+
+$route['404_override'] = 'Error_404';
 $route['translate_uri_dashes'] = FALSE;
