@@ -1,3 +1,16 @@
+<?php
+  //All
+  $allPublicMessages = $db->allPublicMessages;
+  $countAllPublicMessage = $db->countAllPublicMessage;
+
+  // All unread
+  $allUnread = $db->allUnread;
+  $countAllUnread = $db->countAllUnread;
+
+  // All read
+  $allRead = $db->allRead;
+  $countAllRead = $db->countAllRead;
+?>
 <div class="pg-messages">
   <!-- CRUMBS -->
   <div class="cpn-crumbs">
@@ -14,21 +27,21 @@
       <div class="page-content-filter">
         <ul class="page-content-filter__list">
           <li class="page-content-filter__list-item">
-            <a href="#" class="page-content-filter__list-item-link">
+            <a href="<?=base_url().'admin/messages';?>" class="page-content-filter__list-item-link <?=(!isset($_GET['st']))? 'active':'';?>">
               <span class="text">Tous les messages</span>
-              <span class="num">12</span>
+              <span class="num"><?=$countAllPublicMessage;?></span>
             </a>
           </li>
           <li class="page-content-filter__list-item">
-            <a href="#" class="page-content-filter__list-item-link b--red">
+            <a href="<?=base_url().'admin/messages?st=unread';?>" class="page-content-filter__list-item-link b--green <?=(isset($_GET['st'])&&$_GET['st']=="unread")? 'active':'';?>">
               <span class="text">Messages non lus</span>
-              <span class="num">660</span>
+              <span class="num"><?=$countAllUnread;?></span>
             </a>
           </li>
           <li class="page-content-filter__list-item">
-            <a href="#" class="page-content-filter__list-item-link b--green">
+            <a href="<?=base_url().'admin/messages?st=read';?>" class="page-content-filter__list-item-link b--silver <?=(isset($_GET['st'])&&$_GET['st']=="read")? 'active':'';?>">
               <span class="text">Messages lus</span>
-              <span class="num">0</span>
+              <span class="num"><?=$countAllRead;?></span>
             </a>
           </li>
         </ul>
@@ -48,12 +61,13 @@
           <div class="cpn-grid-btns">
             <button class="cpn-grid-list__btn active js-grids__btn" data-grid="1"><i class="icon-grid-x1"></i></button>
             <button class="cpn-grid-list__btn js-grids__btn"  data-grid="2"><i class="icon-grid-x2"></i></button>
-            <button class="cpn-grid-list__btn js-grids__btn"  data-grid="3"><i class="icon-grid-x4"></i></button>
+            <button class="cpn-grid-list__btn js-grids__btn"  data-grid="3"><i class="icon-grid-x3"></i></button>
           </div>
           <div class="cpn-check-list__actions">
-            <button class="cpn-check-list__btn b--delete"><i class="icon-email-deleted icon-email-deleted--red"></i></button>
-            <button class="cpn-check-list__btn b--open"><i class="icon-email-opened "></i></button>
-            <button class="cpn-check-list__btn b--close"><i class="icon-email-closed"></i></button>
+            <button class="cpn-check-list__btn b--delete js-change-status" data-core='{"status":"delete", "title":"Supprimer les messages sélèctionnés?", "id":"", "table":"public_messages", "multiple":"checkList-item--"}' title="Supprimer  les sélèctions" data-bs-toggle="modal" data-bs-target="#changeStatus"><i class="icon-email-deleted icon--red"></i></button>
+            <button class="cpn-check-list__btn b--close js-change-status" data-core='{"status":"default", "title":"Marquer les messages comme non lus?", "id":"", "table":"public_messages", "multiple":"checkList-item--"}' title="Marquer les sélèctions comme non lus" data-bs-toggle="modal" data-bs-target="#changeStatus"><i class="icon-email-closed  icon--green"></i></button>
+            <button class="cpn-check-list__btn b--open js-change-status" data-core='{"status":"active", "title":"Marquer les messages comme lus?", "id":"", "table":"public_messages", "multiple":"checkList-item--"}' title="Marquer les sélèctions comme lus" data-bs-toggle="modal" data-bs-target="#changeStatus"><i class="icon-email-opened"></i></button>
+            
             <span class="cpn-check-list-parent">
               <input type="checkbox" name="check-list-parent" class="js-check-list-parent" id="checkListParent">
               <label class="text cpn-check-list__label field--right" for="checkListParent">Tout cocher</label>
@@ -62,193 +76,86 @@
         </div>
 
         <div class="cpn-email-list cpn-grids__list" id="searchMessages">
-          <div class="cpn-email-list__item cpn-grids__item">
-            <div class="cpn-email-list__item-head">
-              <span class="cpn-email-list__item-avatar"><img src="<?=base_url().'/assets/images/svg/icon-avatar-w.svg'?>" alt="user-avatar"></span>
-              <span class="cpn-email-list__item-status"></span>
-              <span class="cpn-email-list__item-name">Nom 1 et Prénoms</span>
-              <span class="cpn-email-list__item-email">email@gmail.com</span>
-              <span class="cpn-email-list__item-date">13-04-2020, 15:00</span>
-              <span class="cpn-email-list__item-actions cpn-dropdown">
-                <button class="cpn-email-list__item-actions-btn cpn-dropdown__btn"><i class="icon-menu-actions-vertical"></i></button>
-                <div class="cpn-dropdown__content cpn-dropdown__content--actions" position="left">
-                  <ul class="cpn-dropdown__content-list">
-                    <li class="cpn-dropdown__content-list-item">
-                      <a href="<?=base_url();?>" class="cpn-dropdown__content-list-item-link">
-                        <i class="icon-email-opened"></i>
-                        <span class="text">Marquer comme lu</span>
-                      </a>
-                    </li>
-                    <li class="cpn-dropdown__content-list-item">
-                      <a href="<?=base_url();?>" class="cpn-dropdown__content-list-item-link">
-                        <i class="icon-email-deleted"></i>
-                        <span class="text">Supprimer</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </span>
-              <span class="cpn-check-list-item">
-                <input type="checkbox" name="check-list-item" class="js-check-list-item" id="checkList-item">
-                <label class="text cpn-check-list__label field--right" for="checkList-item"></label>
-              </span>
-            </div>
-            <div class="cpn-email-list__item-body">
-              <span class="cpn-email-list__item-object">Titre de l’objet ou demande 200</span>
-              <span class="cpn-status-round--green"></span>
-              <p class="cpn-email-list__item-textContent js-reduce-text">
-                Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat culpa cillumullamco culpa fugiat cillum ullamco 
-                Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa
-                culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco 
-                culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa . 20
-              </p>
-              
-            </div>
-          </div>
-          <div class="cpn-email-list__item cpn-grids__item">
-            <div class="cpn-email-list__item-head">
-              <span class="cpn-email-list__item-avatar"><img src="<?=base_url().'/assets/images/svg/icon-avatar-w.svg'?>" alt="user-avatar"></span>
-              <span class="cpn-email-list__item-status"></span>
-              <span class="cpn-email-list__item-name">Nom 4 et Prénoms</span>
-              <span class="cpn-email-list__item-email">email@gmail.com</span>
-              <span class="cpn-email-list__item-date">13-04-2020, 12:00</span>
-              <span class="cpn-check-list-item">
-                <input type="checkbox" name="check-list-item" class="js-check-list-item" id="checkList-item-1">
-                <label class="text cpn-check-list__label field--right" for="checkList-item-1"></label>
-              </span>
-            </div>
-            <div class="cpn-email-list__item-body">
-              <span class="cpn-email-list__item-object">Titre de l’objet ou demande</span>
-              <span class="cpn-status-round--green"></span>
-              <p class="cpn-email-list__item-textContent js-reduce-text">
-                Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat culpa cillumullamco culpa fugiat cillum ullamco 
-                Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa
-                culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco 
-                culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa .300 
-              </p>
-              
-            </div>
-          </div>
-          <div class="cpn-email-list__item cpn-grids__item">
-            <div class="cpn-email-list__item-head">
-              <span class="cpn-email-list__item-avatar"><img src="<?=base_url().'/assets/images/svg/icon-avatar-w.svg'?>" alt="user-avatar"></span>
-              <span class="cpn-email-list__item-status"></span>
-              <span class="cpn-email-list__item-name">Nom 18 et Prénoms</span>
-              <span class="cpn-email-list__item-email">email@gmail.com</span>
-              <span class="cpn-email-list__item-date">13-04-2020, 17:00</span>
-              <span class="cpn-check-list-item">
-                <input type="checkbox" name="check-list-item" class="js-check-list-item" id="checkList-item-2">
-                <label class="text cpn-check-list__label field--right" for="checkList-item-2"></label>
-              </span>
-            </div>
-            <div class="cpn-email-list__item-body">
-              <span class="cpn-email-list__item-object">Titre de l’objet ou demande</span>
-              <span class="cpn-status-round--green"></span>
-              <p class="cpn-email-list__item-textContent js-reduce-text">
-                Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat culpa cillumullamco culpa fugiat cillum ullamco 
-                Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa
-                culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco 
-                culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa . 
-              </p>
-              
-            </div>
-          </div>
-          <div class="cpn-email-list__item cpn-grids__item">
-            <div class="cpn-email-list__item-head">
-              <span class="cpn-email-list__item-avatar"><img src="<?=base_url().'/assets/images/svg/icon-avatar-w.svg'?>" alt="user-avatar"></span>
-              <span class="cpn-email-list__item-status"></span>
-              <span class="cpn-email-list__item-name">Nom 9 et Prénoms</span>
-              <span class="cpn-email-list__item-email">email@gmail.com</span>
-              <span class="cpn-email-list__item-date">13-04-2020, 22:00</span>
-              <span class="cpn-check-list-item">
-                <input type="checkbox" name="check-list-item" class="js-check-list-item" id="checkList-item-3">
-                <label class="text cpn-check-list__label field--right" for="checkList-item-3"></label>
-              </span>
-            </div>
-            <div class="cpn-email-list__item-body">
-              <span class="cpn-email-list__item-object">Titre de l’objet ou demande</span>
-              <span class="cpn-status-round--green"></span>
-              <p class="cpn-email-list__item-textContent js-reduce-text">
-                Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat culpa cillumullamco culpa fugiat cillum ullamco 
-                Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa
-                culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco 
-                culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa . 
-              </p>
-              
-            </div>
-          </div>
-          <div class="cpn-email-list__item cpn-grids__item">
-            <div class="cpn-email-list__item-head">
-              <span class="cpn-email-list__item-avatar"><img src="<?=base_url().'/assets/images/svg/icon-avatar-w.svg'?>" alt="user-avatar"></span>
-              <span class="cpn-email-list__item-status"></span>
-              <span class="cpn-email-list__item-name">Nom et Prénoms</span>
-              <span class="cpn-email-list__item-email">email@gmail.com</span>
-              <span class="cpn-email-list__item-date">13-04-2020, 05:00</span>
-              <span class="cpn-check-list-item">
-                <input type="checkbox" name="check-list-item" class="js-check-list-item" id="checkList-item-4">
-                <label class="text cpn-check-list__label field--right" for="checkList-item-4"></label>
-              </span>
-            </div>
-            <div class="cpn-email-list__item-body">
-              <span class="cpn-email-list__item-object">Titre de l’objet ou demande</span>
-              <span class="cpn-status-round--green"></span>
-              <p class="cpn-email-list__item-textContent js-reduce-text">
-                Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat culpa cillumullamco culpa fugiat cillum ullamco 
-                Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa
-                culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco 
-                culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa . 
-              </p>
-              
-            </div>
-          </div>
-          <div class="cpn-email-list__item cpn-grids__item">
-            <div class="cpn-email-list__item-head">
-              <span class="cpn-email-list__item-avatar"><img src="<?=base_url().'/assets/images/svg/icon-avatar-w.svg'?>" alt="user-avatar"></span>
-              <span class="cpn-email-list__item-status"></span>
-              <span class="cpn-email-list__item-name">Nom et Prénoms</span>
-              <span class="cpn-email-list__item-email">email@gmail.com</span>
-              <span class="cpn-email-list__item-date">13-04-2020, 10:00</span>
-              <span class="cpn-check-list-item">
-                <input type="checkbox" name="check-list-item" class="js-check-list-item" id="checkList-item-5">
-                <label class="text cpn-check-list__label field--right" for="checkList-item-5"></label>
-              </span>
-            </div>
-            <div class="cpn-email-list__item-body">
-              <span class="cpn-email-list__item-object">Titre de l’objet ou demande</span>
-              <span class="cpn-status-round--green"></span>
-              <p class="cpn-email-list__item-textContent js-reduce-text">
-                Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat culpa cillumullamco culpa fugiat cillum ullamco 
-                Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa
-                culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco 
-                culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa . 
-              </p>
-              
-            </div>
-          </div>
-          <div class="cpn-email-list__item cpn-grids__item">
-            <div class="cpn-email-list__item-head">
-              <span class="cpn-email-list__item-avatar"><img src="<?=base_url().'/assets/images/svg/icon-avatar-w.svg'?>" alt="user-avatar"></span>
-              <span class="cpn-email-list__item-status"></span>
-              <span class="cpn-email-list__item-name">Nom et Prénoms</span>
-              <span class="cpn-email-list__item-email">email@gmail.com</span>
-              <span class="cpn-email-list__item-date">13-04-2020, 19:00</span>
-              <span class="cpn-check-list-item">
-                <input type="checkbox" name="check-list-item" class="js-check-list-item" id="checkList-item-6">
-                <label class="text cpn-check-list__label field--right" for="checkList-item-6"></label>
-              </span>
-            </div>
-            <div class="cpn-email-list__item-body">
-              <span class="cpn-email-list__item-object">Titre de l’objet ou demande</span>
-              <span class="cpn-status-round--green"></span>
-              <p class="cpn-email-list__item-textContent js-reduce-text">
-                Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat culpa cillumullamco culpa fugiat cillum ullamco 
-                Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa
-                culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa Culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa fugiat cillum ullamco 
-                culpa fugiat cillum ullamco culpa fugiat cillum ullamco culpa . 
-              </p>
-              
-            </div>
-          </div>
+          <?php
+            if($allPublicMessages):
+              foreach($allPublicMessages as $allPublicMessage):
+                $id = $allPublicMessage->id;
+                $name = $allPublicMessage->last_name.' '.$allPublicMessage->first_name;
+                $phone = $allPublicMessage->phone;
+                $email = $allPublicMessage->email;
+                $object = $allPublicMessage->object;
+                $message = $allPublicMessage->message;
+                $status = $allPublicMessage->status;
+                $createdDate = $allPublicMessage->created_at;
+
+                $codeColor = 'green';
+                if($status==1) {
+                  $codeColor = 'green';
+                }else if($status==2) {
+                  $codeColor = 'silver';
+                }
+                
+                ?>
+                  <div class="cpn-email-list__item cpn-grids__item">
+                    <div class="cpn-email-list__item-head">
+                      <span class="cpn-email-list__item-avatar"><img src="<?=base_url().'/assets/images/svg/icon-avatar-w.svg'?>" alt="user-avatar"></span>
+                      <span class="cpn-email-list__item-status"></span>
+                      <span class="cpn-email-list__item-name"><?=$name;?></span>
+                      <span class="cpn-email-list__item-email"><?=$email;?></span>
+                      <span class="cpn-email-list__item-date"><?=appDateFormat($createdDate);?></span>
+                      <span class="cpn-email-list__item-actions cpn-dropdown">
+                        <button class="cpn-email-list__item-actions-btn cpn-dropdown__btn"><i class="icon-menu-actions-vertical"></i></button>
+                        <div class="cpn-dropdown__content cpn-dropdown__content--actions" position="left">
+                          <ul class="cpn-dropdown__content-list">
+                            
+                            <?php 
+                              if($status==1){
+                                ?>
+                                  <li class="cpn-dropdown__content-list-item">
+                                    <a href="#" class="cpn-dropdown__content-list-item-link js-change-status" data-core='{"status":"active", "title":"Marquer ce message comme lu?", "id":<?=$id;?>, "table":"public_messages"}' data-bs-toggle="modal" data-bs-target="#changeStatus">
+                                      <i class="icon-email-opened"></i>
+                                      <span class="text">Marquer comme lu</span>
+                                    </a>
+                                  </li>
+                                <?php
+                              }else if($status==2){
+                                ?>
+                                  <li class="cpn-dropdown__content-list-item">
+                                    <a href="#" class="cpn-dropdown__content-list-item-link js-change-status" data-core='{"status":"default", "title":"Marquer ce message comme non lu?", "id":<?=$id;?>, "table":"public_messages"}' data-bs-toggle="modal" data-bs-target="#changeStatus">
+                                      <i class="icon-email-closed"></i>
+                                      <span class="text">Marquer comme  non lu</span>
+                                    </a>
+                                  </li>
+                                <?php
+                              }
+                            ?>
+                            
+                            <li class="cpn-dropdown__content-list-item">
+                              <a href="#" class="cpn-dropdown__content-list-item-link js-change-status" data-core='{"status":"delete", "title":"Êtes-vous sûr de vouloir supprimer ce message?", "id":<?=$id;?>, "table":"public_messages"}' data-bs-toggle="modal" data-bs-target="#changeStatus">
+                                <i class="icon-email-deleted"></i>
+                                <span class="text">Supprimer</span>
+                              </a>
+                            </li> 
+                          </ul>
+                        </div>
+                      </span>
+                      <span class="cpn-check-list-item">
+                        <input type="checkbox" name="checkList-item--<?=$id;?>" class="js-check-list-item" id="checkList-item--<?=$id;?>" data-id="<?=$id;?>">
+                        <label class="text cpn-check-list__label field--right" for="checkList-item--<?=$id;?>"></label>
+                      </span>
+                    </div>
+                    <div class="cpn-email-list__item-body">
+                      <span class="cpn-email-list__item-object"><?=$object;?></span>
+                      <span class="cpn-status-round--<?=$codeColor?>"></span>
+                      <p class="cpn-email-list__item-textContent js-reduce-text"><?=$message;?></p>
+                    </div>
+                  </div>
+                <?php
+              endforeach;
+            else:
+
+            endif;
+          ?>
         </div>
 
         <!-- PAGINATION -->

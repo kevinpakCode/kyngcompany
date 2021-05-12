@@ -18,19 +18,19 @@
 
   $data['currentModule'] = $currentModule = $this->uri->segment(1)??null;
 
-  $this->load->view('common/doc_header', $data);
+  $this->load->view('common/back-office/doc_header', $data);
 ?>
 
 <div class="app-wrap <?=$currentModule??'';?> <?=$isLogin? 'dashboard':'';?> <?=$pageName? $pageName:'';?>" >
-  <?php $isLogin?$this->load->view('common/sidebar_view', $data):null; ?>
+  <?php $isLogin?$this->load->view('common/back-office/sidebar_view', $data):null; ?>
   <div class="app-content">
-    <?php $isLogin?$this->load->view('common/header_view'):null; ?>
+    <?php $isLogin?$this->load->view('common/back-office/header_view'):null; ?>
     <main class="main">
-      <?php $isLogin? $this->load->view('common/page_head_view', $data):null; ?>
+      <?php $isLogin? $this->load->view('common/back-office/page_head_view', $data):null; ?>
       <?php $page->fileName ? $this->load->view($page->fileName.'_view'):null; ?>
     </main>
-    <?php $isLogin?$this->load->view('common/footer_view'):null; ?>
+    <?php $isLogin?$this->load->view('common/back-office/footer_view'):null; ?>
   </div>
 </div>
 
-<?php $this->load->view('common/doc_footer');?>
+<?php $this->load->view('common/back-office/doc_footer');?>

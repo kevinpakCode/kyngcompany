@@ -12,12 +12,13 @@ class Core extends CI_Controller {
 	{
 		
 		$data['page'] = (object) [
-      'isDashboard' => false,
+      'isPublic' => true,
       'name' => 'home',
       'title' => 'Accueil',
-      'titleIcon' => 'home',
-      'module' => 'site',
-      'fileName' => 'site/home',
+      'titleIcon' => NULL,
+			'modal' => 'public/public_modal',
+      'module' => 'public',
+      'fileName' => 'public/home',
     ];
 
 		//===> Ajax
@@ -25,7 +26,7 @@ class Core extends CI_Controller {
       extract($_POST);
       
     }else{
-      $this->load->view('layouts/site', $data);
+      $this->load->view('layouts/public', $data);
     }
 	}
 

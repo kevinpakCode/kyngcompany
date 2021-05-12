@@ -16,7 +16,7 @@ class Error_404 extends CI_Controller {
 
 		$zone = $this->uri->segment(1);
 		$dashboard = array("admin", "clients", "users");
-		$template = "layouts/site";
+		$template = "layouts/public";
 		if(isset($zone)&&in_array($zone, $dashboard)){
 			$template = "layouts/dashboard";
 		}

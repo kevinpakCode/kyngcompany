@@ -28,6 +28,10 @@ a {
   text-decoration: none !important;
 }
 
+mark {
+  background-color: transparent;
+}
+
 input:focus,
 select:focus,
 textarea:focus,

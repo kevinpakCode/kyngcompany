@@ -1,29 +1,33 @@
 <!-- New Categories -->
-<div class="modal fade cpn-modal" id="newCategories"  aria-labelledby="exampleModalCenterTitle">
+<div class="modal fade cpn-modal" id="newCategories" >
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content cpn-modal__inner">
       <button class="cpn-modal__btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="icon-close"></i></button>
       <div class="cpn-modal__head">
         <h2 class="cpn-modal__title">
-          <i class="icon-plus"></i>
-          <span class="cpn-modal__title-text">Nouvelle catégorie</span>
+          <div class="cpn-modal__title-inner">
+            <div class="cpn-modal__title--create"><i class="icon-plus-02"></i><span class="cpn-modal__title-text">Nouvelle catégorie</span></div>
+            <div class="cpn-modal__title--edit"><i class="icon-edit"></i><span class="cpn-modal__title-text">Modifier catégorie</span></div>
+          </div>
         </h2>
       </div>
       <div class="cpn-modal__body">
-        <form action="marketing/client" method="Post" id="newClient" novalidate="novalidate">
+        <form action="admin/shop/categories" method="post" id="formNewCategory" data-mode="create">
+          <input type="hidden" name="tbl">
+          <input type="hidden" name="id">
           <div class="cpn-form-row">
-            <label for="categorieName" class="cpn-form-row__label">Nom <span class="cpn-form-row__label-required">*</span></label>
-            <input type="text" name="name" class="cpn-field" id="categorieName" required>
+            <label for="categoryName" class="cpn-form-row__label">Nom <span class="cpn-form-row__label-required">*</span></label>
+            <input type="text" name="categoryName" class="cpn-field" id="categoryName" data-name="name" required>
           </div>
 
           <div class="cpn-form-row">
-            <label for="categorieDescription" class="cpn-form-row__label">Observation</label>
-            <textarea name="description" class="cpn-field" id="categorieDescription"></textarea>
+            <label for="categoryDescription" class="cpn-form-row__label">Observation</label>
+            <textarea name="categoryDescription" class="cpn-field" id="categoryDescription" data-name="description"></textarea>
           </div>
 
           <div class="cpn-form-row-footer">
             <button class="cpn-btn cpn-btn--red" data-bs-dismiss="modal">Annuler</button>
-            <button class="cpn-btn">Sauvegarder</button>
+            <button class="cpn-btn" name="newCategoriesBtn" data-text="Sauvegarder">Sauvegarder</button>
           </div>
         </form>
       </div>
@@ -33,31 +37,41 @@
 
 
 <!-- New Brand -->
-<div class="modal fade cpn-modal" id="newBrand"  aria-labelledby="exampleModalCenterTitle">
+<div class="modal fade cpn-modal" id="newBrand">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content cpn-modal__inner">
       <button class="cpn-modal__btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="icon-close"></i></button>
       <div class="cpn-modal__head">
         <h2 class="cpn-modal__title">
-          <i class="icon-plus"></i>
-          <span class="cpn-modal__title-text">Nouvelle marque</span>
+          <div class="cpn-modal__title-inner">
+            <div class="cpn-modal__title--create"><i class="icon-plus-02"></i><span class="cpn-modal__title-text">Nouvelle marque</span></div>
+            <div class="cpn-modal__title--edit"><i class="icon-edit"></i><span class="cpn-modal__title-text">Modifier Marque</span></div>
+          </div>
         </h2>
       </div>
       <div class="cpn-modal__body">
-        <form action="marketing/client" method="Post" id="newClient" novalidate="novalidate">
+        <form action="admin/shop/brands" method="post" id="formNewBrand" data-mode="create" enctype="multipart/form-data">
+          <input type="hidden" name="tbl">
+          <input type="hidden" name="id">
+
+          <div class="cpn-form-row">
+            <label for="productImage" class="cpn-form-row__label">Image <span class="cpn-form-row__label-required">*</span></label>
+            <input type="file" name="file" class="cpn-field js-dropify" id="productImage" accept=".jpg, .jpeg, .png" required>
+          </div>
+
           <div class="cpn-form-row">
             <label for="brandName" class="cpn-form-row__label">Nom <span class="cpn-form-row__label-required">*</span></label>
-            <input type="text" name="name" class="cpn-field" id="brandName" required>
+            <input type="text" name="name" class="cpn-field" id="brandName" data-name="name" required>
           </div>
 
           <div class="cpn-form-row">
             <label for="brandDescription" class="cpn-form-row__label">Observation</label>
-            <textarea name="description" class="cpn-field" id="brandDescription"></textarea>
+            <textarea name="description" class="cpn-field" id="brandDescription" data-name="description"></textarea>
           </div>
 
           <div class="cpn-form-row-footer">
             <button class="cpn-btn cpn-btn--red" data-bs-dismiss="modal">Annuler</button>
-            <button class="cpn-btn">Sauvegarder</button>
+            <button class="cpn-btn" data-text="Sauvegarder">Sauvegarder</button>
           </div>
         </form>
       </div>

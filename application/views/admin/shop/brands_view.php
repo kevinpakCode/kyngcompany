@@ -1,3 +1,6 @@
+<?php
+  $allShopBrands = $db->allShopBrands;
+?>
 <div class="pg-brands">
   <!-- CRUMBS -->
   <div class="cpn-crumbs">
@@ -16,8 +19,8 @@
   <div class="cpn-pg-actions">
     <ul class="cpn-pg-actions__list">
       <li class="cpn-pg-actions__list-item">
-        <button class="cpn-pg-actions__list-item-btn" data-bs-toggle="modal" data-bs-target="#newBrand">
-          <i class="icon-plus"></i>
+        <button class="cpn-pg-actions__list-item-btn" data-add-update-modal="newBrand" data-mode="create">
+          <i class="icon-plus-02"></i>
           <span class="text">Novelle Marque</span>
         </button>
       </li>
@@ -30,13 +33,13 @@
     <!-- Search -->
     <div class="cpn-search">
       <div class="cpn-search__content">
-        <input type="search" placeholder="Recherche" class="cpn-search__field" name="searchMessage" id="searchMessageField">
+        <input type="search" placeholder="Recherche" class="cpn-search__field" data-search-target="searchShopBrands">
       </div>
     </div>
 
     <!-- TABLES -->
     <div class="cpn-wrap-table cpn-scroll-bar--xy">
-      <table class="cpn-table">
+      <table class="cpn-table js-tbl-sort" id="searchShopBrands">
         <thead>
           <tr>
             <th class="cpn-table__date">Date</th>
@@ -46,71 +49,44 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>22-05-2021, 18:00:00</td>
-            <td>Télévisions</td>
-            <td>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur reprehenderit 
-              quae ducimus possimus odit excepturi cum ipsum, dignissimos quas animi expedita ex 
-              harum voluptates quisquam earum, in praesentium? Fuga, cum.
-            </td>
-            <td>
-              <div class="cpn-table__actions-btns">
-                <button class="cpn-btn-switch js-btn-switch"></button>
-                <button class="cpn-table__actions-item"><i class="icon-pen"></i></button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>22-05-2021, 18:00:00</td>
-            <td>Télévisions</td>
-            <td>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur reprehenderit 
-              quae ducimus possimus odit excepturi cum ipsum, dignissimos quas animi expedita ex 
-              harum voluptates quisquam earum, in praesentium? Fuga, cum.
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>22-05-2021, 18:00:00</td>
-            <td>Télévisions</td>
-            <td>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur reprehenderit 
-              quae ducimus possimus odit excepturi cum ipsum, dignissimos quas animi expedita ex 
-              harum voluptates quisquam earum, in praesentium? Fuga, cum.
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>22-05-2021, 18:00:00</td>
-            <td>Télévisions</td>
-            <td>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur reprehenderit 
-              quae ducimus possimus odit excepturi cum ipsum, dignissimos quas animi expedita ex 
-              harum voluptates quisquam earum, in praesentium? Fuga, cum.
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>22-05-2021, 18:00:00</td>
-            <td>Télévisions</td>
-            <td>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur reprehenderit 
-              quae ducimus possimus odit excepturi cum ipsum, dignissimos quas animi expedita ex 
-              harum voluptates quisquam earum, in praesentium? Fuga, cum.
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>22-05-2021, 18:00:00</td>
-            <td>Télévisions</td>
-            <td>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur reprehenderit 
-              quae ducimus possimus odit excepturi cum ipsum, dignissimos quas animi expedita ex 
-              harum voluptates quisquam earum, in praesentium? Fuga, cum.
-            </td>
-            <td></td>
-          </tr>
+          <?php
+            if($allShopBrands):
+              foreach($allShopBrands as $allShopBrand):
+                $id = $allShopBrand->id;
+                $name = $allShopBrand->name;
+                $image = $allShopBrand->image;
+                $description = $allShopBrand->description;
+                $status = $allShopBrand->status;
+                $createdDate = $allShopBrand->updated_at;
+              ?>
+                <tr>
+                  <td><?=appDateFormat($createdDate);?></td>
+                  <td>
+                    <div class="cpn-tbl-item">
+                      <div class="cpn-tbl-item__inner">
+                        <div class="cpn-tbl-item__img">
+                          <img src="<?=base_url().'assets/images/upload/brands/'.$image;?>" alt="brands logo">
+                        </div>
+                        <div class="cpn-tbl-item__infos">
+                          <div class="cpn-tbl-item__infos-row cpn-tbl-item__infos-row--name"><?=$name;?></div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td><?=$description;?></td>
+                  <td>
+                    <div class="cpn-table__actions-btns">
+                      <button class="cpn-btn-switch js-btn-switch <?=($status==2)?'active':'';?>" data-core='{"status":"<?=($status==1)? "active":"default";?>", "id":"<?=$id;?>", "table":"shop_brands", "message":{"error":"Marque désactivée", "success":"Marque activée"}}'></button>
+                      <button class="cpn-table__actions-item" data-add-update-modal="newBrand" data-mode="edit" data-infos="<?='shop_brands@@@'.$id?>"><i class="icon-edit"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              <?php
+              endforeach;
+            else:
+            endif;
+          
+          ?>
         </tbody>
       </table>
     </div>

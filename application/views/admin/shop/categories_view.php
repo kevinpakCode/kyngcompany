@@ -1,3 +1,6 @@
+<?php
+  $allShopCategories = $db->allShopCategories;
+?>
 <div class="pg-categories">
   <!-- CRUMBS -->
   <div class="cpn-crumbs">
@@ -15,8 +18,8 @@
   <div class="cpn-pg-actions">
     <ul class="cpn-pg-actions__list">
       <li class="cpn-pg-actions__list-item">
-        <button class="cpn-pg-actions__list-item-btn" data-bs-toggle="modal" data-bs-target="#newCategories">
-          <i class="icon-plus"></i>
+        <button class="cpn-pg-actions__list-item-btn"  data-add-update-modal="newCategories" data-mode="create">
+          <i class="icon-plus-02"></i>
           <span class="text">Novelle Catégorie</span>
         </button>
       </li>
@@ -29,7 +32,7 @@
     <!-- Search -->
     <div class="cpn-search">
       <div class="cpn-search__content">
-        <input type="search" placeholder="Recherche" class="cpn-search__field" name="searchMessage" data-search-target="searchShopCategory">
+        <input type="search" placeholder="Recherche" class="cpn-search__field"  data-search-target="searchShopCategory">
       </div>
     </div>
 
@@ -38,78 +41,38 @@
       <table class="cpn-table js-tbl-sort" id="searchShopCategory">
         <thead>
           <tr>
-            <th class="cpn-table__date js-default-sort">Date</th>
+            <th class="cpn-table__date">Date</th>
             <th class="cpn-table__name">Nom</th>
             <th>Description</th>
             <th class="cpn-table__actions">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>22-05-2021, 18:00:00</td>
-            <td>Télévisions</td>
-            <td>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur reprehenderit 
-              quae ducimus possimus odit excepturi cum ipsum, dignissimos quas animi expedita ex 
-              harum voluptates quisquam earum, in praesentium? Fuga, cum.
-            </td>
-            <td>
-              <div class="cpn-table__actions-btns">
-                <button class="cpn-btn-switch js-btn-switch"></button>
-                <button class="cpn-table__actions-item"><i class="icon-pen"></i></button>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td>22-05-2021, 19:00:00</td>
-            <td>Télévisions 8</td>
-            <td>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur reprehenderit 
-              quae ducimus possimus odit excepturi cum ipsum, dignissimos quas animi expedita ex 
-              harum voluptates quisquam earum, in praesentium? Fuga, cum.
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>22-05-2021, 21:00:00</td>
-            <td>Télévisions 2</td>
-            <td>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur reprehenderit 
-              quae ducimus possimus odit excepturi cum ipsum, dignissimos quas animi expedita ex 
-              harum voluptates quisquam earum, in praesentium? Fuga, cum.
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>22-05-2021, 12:00:00</td>
-            <td>Télévisions 5</td>
-            <td>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur reprehenderit 
-              quae ducimus possimus odit excepturi cum ipsum, dignissimos quas animi expedita ex 
-              harum voluptates quisquam earum, in praesentium? Fuga, cum.
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>22-05-2021, 18:00:00</td>
-            <td>Télévisions 3</td>
-            <td>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur reprehenderit 
-              quae ducimus possimus odit excepturi cum ipsum, dignissimos quas animi expedita ex 
-              harum voluptates quisquam earum, in praesentium? Fuga, cum.
-            </td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>22-05-2021, 18:00:00</td>
-            <td>Télévisions 1</td>
-            <td>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aspernatur reprehenderit 
-              quae ducimus possimus odit excepturi cum ipsum, dignissimos quas animi expedita ex 
-              harum voluptates quisquam earum, in praesentium? Fuga, cum.
-            </td>
-            <td></td>
-          </tr>
+          <?php
+            if($allShopCategories):
+              foreach($allShopCategories as $allShopCategory):
+                $id = $allShopCategory->id;
+                $name = $allShopCategory->name;
+                $description = $allShopCategory->description;
+                $status = $allShopCategory->status;
+                $createdDate = $allShopCategory->created_at;
+              ?>
+                <tr>
+                  <td><?=appDateFormat($createdDate);?></td>
+                  <td><?=$name;?></td>
+                  <td><?=$description;?></td>
+                  <td>
+                    <div class="cpn-table__actions-btns">
+                      <button class="cpn-btn-switch js-btn-switch <?=($status==2)?'active':'';?>" data-core='{"status":"<?=($status==1)? "active":"default";?>", "id":"<?=$id;?>", "table":"shop_catalogs", "message":{"error":"Catégorie désactivée", "success":"Catégorie activée"}}'></button>
+                      <button class="cpn-table__actions-item" data-add-update-modal="newCategories" data-mode="edit" data-infos="<?='shop_catalogs@@@'.$id?>"><i class="icon-edit"></i></button>
+                    </div>
+                  </td>
+                </tr> 
+              <?php
+              endforeach;
+            else:
+            endif;
+          ?>
         </tbody>
       </table>
     </div>

@@ -49,12 +49,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-//$this->set_directory("admin");
 $route['default_controller'] = 'core';
 
 //Clients
 $route['clients'] = 'clients/clients';
-$route['clients/(:any)'] = 'clients/$1';
+$route['clients/(:any)'] = 'clients/clients/$1';
 $route['clients/(:any)/([0-9]+)'] = 'clients/$1';
 $route['clients/(:any)/([0-9]+)/([0-9]+)'] = 'clients/$1';
 $route['clients/(:any)/([0-9]+)/([0-9]+)/([0-9]+)'] = 'clients/$1';
@@ -71,22 +70,17 @@ $route['admin/(:any)/(:any)'] = 'admin/$1/$2';
 $route['admin/(:any)/(:any)/(:num)'] = 'admin/$1/$2/$3';
 
 //Users
-$route['users'] = 'users/users';
+/*$route['users'] = 'users/users';
 $route['users/(:any)'] = 'users/$1';
 $route['users/(:any)/([0-9]+)'] = 'users/$1';
 $route['users/(:any)/([0-9]+)/([0-9]+)'] = 'users/$1';
 $route['users/(:any)/([0-9]+)/([0-9]+)/([0-9]+)'] = 'users/$1';
-$route['users/(:any)/(:any)'] = 'users/$1/$2';
+$route['users/(:any)/(:any)'] = 'users/$1/$2';*/
 
-$route['logout'] = 'spw/logout';
-$route['home'] = 'spw/home';
-$route['(:any)'] = '$1';
-$route['(:any)/([0-9]+)'] = '$1';
-
-$route['(:any)/(:any)'] = '$1/$2';
-$route['(:any)/(:any)/(:any)'] = '$1/$2/$3';
-$route['(:any)/(:any)/([0-9]+)'] = '$1/$2/$3';
-$route['(:any)/(:any)/([0-9]+)/([0-9]+)'] = '$1/$2/$3/$4';
+$route['(:any)'] = 'public/$1';
+$route['(:any)/(:num)'] = 'public/$1/index/$2';
+$route['(:any)/(:any)'] = 'public/$1/$2';
+$route['(:any)/(:any)/(:num)'] = 'public/$1/$2/$3';
 
 
 $route['404_override'] = 'Error_404';
