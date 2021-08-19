@@ -21,7 +21,7 @@
           </div>
 
           <div class="cpn-form-row">
-            <label for="categoryDescription" class="cpn-form-row__label">Observation</label>
+            <label for="categoryDescription" class="cpn-form-row__label">Description</label>
             <textarea name="categoryDescription" class="cpn-field" id="categoryDescription" data-name="description"></textarea>
           </div>
 
@@ -65,7 +65,7 @@
           </div>
 
           <div class="cpn-form-row">
-            <label for="brandDescription" class="cpn-form-row__label">Observation</label>
+            <label for="brandDescription" class="cpn-form-row__label">Description</label>
             <textarea name="description" class="cpn-field" id="brandDescription" data-name="description"></textarea>
           </div>
 
@@ -93,7 +93,10 @@
         </h2>
       </div>
       <div class="cpn-modal__body">
-        <form action="marketing/client" method="Post" id="newClient" novalidate="novalidate">
+        <form action="marketing/client" method="Post" id="formNewProduct" data-mode="create">
+          <input type="hidden" name="tbl">
+          <input type="hidden" name="id">
+
           <div class="cpn-form-row">
             <label for="productImage" class="cpn-form-row__label">Image <span class="cpn-form-row__label-required">*</span></label>
             <input type="file" name="file" class="cpn-field js-dropify" id="productImage" accept=".jpg, .jpeg, .png" required>
@@ -149,25 +152,30 @@
       <button class="cpn-modal__btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="icon-close"></i></button>
       <div class="cpn-modal__head">
         <h2 class="cpn-modal__title">
-          <i class="icon-plus"></i>
-          <span class="cpn-modal__title-text">Nouveau caratéristique</span>
+          <div class="cpn-modal__title-inner">
+            <div class="cpn-modal__title--create"><i class="icon-plus-02"></i><span class="cpn-modal__title-text">Nouveau caratéristique</span></div>
+            <div class="cpn-modal__title--edit"><i class="icon-edit"></i><span class="cpn-modal__title-text">Modifier caratéristique</span></div>
+          </div>
         </h2>
       </div>
       <div class="cpn-modal__body">
-        <form action="marketing/client" method="Post" id="newClient" novalidate="novalidate">
+        <form action="admin/shop/characteristics" method="post" id="formNewCharacteristic"  data-mode="create">
+          <input type="hidden" name="tbl">
+          <input type="hidden" name="id">
+
           <div class="cpn-form-row">
-            <label for="charateristicName" class="cpn-form-row__label">caratéristique <span class="cpn-form-row__label-required">*</span></label>
-            <select name="idcharateristic" class="cpn-field" id="charateristicName" required></select>
+            <label for="characteristicName" class="cpn-form-row__label">caratéristique <span class="cpn-form-row__label-required">*</span></label>
+            <input type="text" class="cpn-field" name="name" id="characteristicName" data-name="name" required>
           </div>
 
           <div class="cpn-form-row">
-            <label for="charateristicValue" class="cpn-form-row__label">Valeur</label>
-            <select name="idValue" class="cpn-field" id="charateristicValue" required></select>
+            <label for="characteristicDescription" class="cpn-form-row__label">Description</label>
+            <textarea name="description" class="cpn-field" id="characteristicDescription" data-name="description"></textarea>
           </div>
 
           <div class="cpn-form-row-footer">
             <button class="cpn-btn cpn-btn--red" data-bs-dismiss="modal">Annuler</button>
-            <button class="cpn-btn">Sauvegarder</button>
+            <button class="cpn-btn" data-text="Sauvegarder">Sauvegarder</button>
           </div>
         </form>
       </div>

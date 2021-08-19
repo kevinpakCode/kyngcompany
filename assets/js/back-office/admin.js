@@ -3,7 +3,7 @@ import {actionAjaxStart, runAjax, actionAjaxNoRefresh} from './../modules/ajax.j
 
 import {controlSwitch} from './../back-office/_modules/global_module.js'
 
-import {createEditCatalog, createEditBrand} from './_modules/shop_module.js'
+import {createEditCatalog, createEditBrand, createEditCharacteristic} from './_modules/shop_module.js'
 
 /*
 -------------------------------
@@ -73,6 +73,9 @@ createEditCatalog()
 
 //==> Create OR EDIT Brand
 createEditBrand()
+
+//==> Create OR EDIT Characteristic
+createEditCharacteristic()
 
 /*
 -------------------------------

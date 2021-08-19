@@ -43,3 +43,25 @@ export const createEditBrand = () => {
   
   })
 }
+
+
+export const createEditCharacteristic = () => {
+  $('body').on('submit', '#formNewCharacteristic', function(e){
+    e.preventDefault()
+  
+    const form = $(this)
+    const btn = form.find('button[name*="Btn"]')
+    const formMode = form.data('mode')
+    actionAjaxStart(form,btn)
+    const formData = new FormData(form[0])
+    formData.append('redirectUrl', urlHref)
+
+    if(formMode.length&&formMode==="edit") {
+      formData.append('ActiveAjax', 'editCharacteristic')
+    } else {
+      formData.append('ActiveAjax', 'newCharacteristic')
+    }
+    runAjax(form, btn, formData, false)
+  
+  })
+}

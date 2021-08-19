@@ -250,9 +250,83 @@ class Shop extends CI_Controller {
       'fileName' => 'admin/shop/characteristic',
     ];
 
+    function infosShopCharacteristics($dataCondition) {
+      $CI = get_instance();
+      return $CI->App_model->get_rows_order('shop_characteristics', $dataCondition, 'created_at', 'DESC');
+    }
+
+    $allShopCharacteristics = infosShopCharacteristics(array('status !='=>0));
+    $allDelete = infosShopCharacteristics(array('status'=>0));
+    $allDisabled = infosShopCharacteristics(array('status'=>1));
+    $allActive = infosShopCharacteristics(array('status'=>2));
+
+    $data['db'] = (object) [
+			'allShopCharacteristics' => $allShopCharacteristics,
+      'countAllCharacteristics' => count($allShopCharacteristics),
+		];
+
 		//===> Ajax
     if($this->input->is_ajax_request()) {
       extract($_POST);
+      $table = 'shop_characteristics';
+
+      /*=== New Characteristic ===*/
+      if($ActiveAjax=='newCharacteristic'):
+        //=> Verify if exist
+        $exist = checkExist($table, array('name'=>appInput($name)));
+        if($exist):
+          //Return 
+					$status = 'error';
+					$data = $redirectUrl;
+					$message ='Le charactéristique <strong class="text-green">'.appInput($name).'</strong> existe déjà !';
+					returnJS($status, $message, $data);
+        else:
+          //=> Save in db
+          $dataAdd['name'] = appInput($name);
+          $dataAdd['description'] = appInput($description);
+          $dataAdd['user_admin_id'] = connectedUser()->id;
+          $dataAdd['status'] = 1;
+          $dataAdd['created_at'] = currentDateTime();
+          $dataAdd['updated_at'] = currentDateTime();
+          $this->App_model->add_item($table,$dataAdd);
+          
+          //==> History 
+          $tableId = $this->App_model->last_id_insert($table);
+          KeepUserLogs($table, $tableId, "ADD", $dataAdd, connectedUser()->id);
+
+          //Return 
+					$status = 'success';
+					$data = $redirectUrl;
+					$message ='Le charactéristique <strong class="text-green">'.appInput($name).'</strong> a été bien ajouter !';
+					returnJS($status, $message, $data);
+
+        endif;
+
+      /*=== Edit Characteristic ===*/
+      elseif($ActiveAjax=='editCharacteristic'):
+        //=> Verify if exist
+        $exist = checkExist($table, array('name'=>appInput($name), 'id !='=>$id));
+        if($exist):
+          //Return 
+					$status = 'error';
+					$data = $redirectUrl;
+					$message ='Le charactéristique <strong class="text-green">'.appInput($name).'</strong> existe déjà !';
+					returnJS($status, $message, $data);
+        else:
+          $dataItem['name'] = appInput($name);
+          $dataItem['description'] = appInput($description);
+          $dataItem['updated_at'] = currentDateTime();
+          //==> History 
+          KeepUserLogs($table, $id, "UPDATE", $dataItem, connectedUser()->id);
+          $this->App_model->update_item($table,$dataItem, array('id'=>$id));
+
+          //Return 
+					$status = 'success';
+					$data = $redirectUrl;
+					$message ='Le charactéristique marque <strong class="text-green">'.appInput($name).'</strong> a été bien modifiée!';
+					returnJS($status, $message, $data);
+        endif;
+      endif;
       
     }else{
       $this->load->view('layouts/dashboard', $data);

@@ -1,3 +1,6 @@
+<?php
+  $allShopCharacteristics = $db->allShopCharacteristics;
+?>
 <div class="pg-characteristics">
   <!-- CRUMBS -->
   <div class="cpn-crumbs">
@@ -16,7 +19,7 @@
     <ul class="cpn-pg-actions__list">
       <li class="cpn-pg-actions__list-item">
         <button class="cpn-pg-actions__list-item-btn" data-bs-toggle="modal" data-bs-target="#newCharacteristic">
-          <i class="icon-plus"></i>
+          <i class="icon-plus-02"></i>
           <span class="text">Noveau caratéristique</span>
         </button>
       </li>
@@ -39,53 +42,39 @@
           <tr>
             <th class="cpn-table__date">Date</th>
             <th class="cpn-table__name">Caratéristiques</th>
-            <th>Valeurs</th>
+            <th>Description</th>
             <th class="cpn-table__actions">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>22-05-2021, 18:00:00</td>
-            <td>
-              <div class="pg-characteristics__item">
-                <span class="text">Couleur</span> 
-                <button class="pg-characteristics__item-btn"><i class="icon-edit"></i></button>
-              </div>
-            </td>
-            <td>
-              <ul class="cpn-ed-elem-list">
-                <li class="cpn-ed-elem-list__item">
-                  <span class="text">Rouge</span> 
-                  <button class="cpn-ed-elem-list__item-btn" data-bs-toggle="modal" data-bs-target="#editTextElem"><i class="icon-edit"></i></button>
-                </li>
-                <li class="cpn-ed-elem-list__item">
-                  <span class="text">Blue</span> 
-                  <button class="cpn-ed-elem-list__item-btn" data-bs-toggle="modal" data-bs-target="#editTextElem"><i class="icon-edit"></i></button>
-                </li>
-                <li class="cpn-ed-elem-list__item">
-                  <span class="text">Jaune</span> 
-                  <button class="cpn-ed-elem-list__item-btn" data-bs-toggle="modal" data-bs-target="#editTextElem"><i class="icon-edit"></i></button>
-                </li>
-                <li class="cpn-ed-elem-list__item">
-                  <span class="text">Noir</span> 
-                  <button class="cpn-ed-elem-list__item-btn" data-bs-toggle="modal" data-bs-target="#editTextElem"><i class="icon-edit"></i></button>
-                </li>
-                <li class="cpn-ed-elem-list__item">
-                  <span class="text">Orange</span> 
-                  <button class="cpn-ed-elem-list__item-btn" data-bs-toggle="modal" data-bs-target="#editTextElem"><i class="icon-edit"></i></button>
-                </li>
-                <li class="cpn-ed-elem-list__item">
-                  <span class="text">viollet</span> 
-                  <button class="cpn-ed-elem-list__item-btn" data-bs-toggle="modal" data-bs-target="#editTextElem"><i class="icon-edit"></i></button>
-                </li>
-              </ul>
-            </td>
-            <td class="cpn-table__actions cpn-table__actions--right">
-              <div class="cpn-table__actions-btns">
-                <button class="cpn-btn-switch js-btn-switch"></button>
-              </div>
-            </td>
-          </tr>
+          <?php
+            if($allShopCharacteristics) {
+              foreach($allShopCharacteristics as $allShopCharacteristic):
+                  $id = $allShopCharacteristic->id;
+                  $name = $allShopCharacteristic->name;
+                  $description = $allShopCharacteristic->description;
+                  $status = $allShopCharacteristic->status;
+                  $createdDate = $allShopCharacteristic->updated_at;
+                ?>
+                  <tr>
+                    <td><?=appDateFormat($createdDate);?></td>
+                    <td>
+                      <span class="text"><?=$name;?></span>
+                    </td>
+                    <td>
+                      <span class="text"><?=$description;?></span>
+                    </td>
+                    <td class="cpn-table__actions">
+                      <div class="cpn-table__actions-btns">
+                        <button class="cpn-btn-switch js-btn-switch <?=($status==2)?'active':'';?>" data-core='{"status":"<?=($status==1)? "active":"default";?>", "id":"<?=$id;?>", "table":"shop_characteristics", "message":{"error":"Caractéristique désactivé", "success":"Caractéristique activé"}}'></button>
+                        <button class="cpn-table__actions-item" data-add-update-modal="newCharacteristic" data-mode="edit" data-infos="<?='shop_characteristics@@@'.$id?>"><i class="icon-edit"></i></button>
+                      </div>
+                    </td>
+                  </tr>
+                <?php
+              endforeach;
+            }
+          ?>
         </tbody>
       </table>
     </div>

@@ -41,6 +41,7 @@ export const closeFormMessage = btn => {
   btn.closest('.show').removeClass('show success error')
   localStorage.removeItem('formAlert')
 }
+
 export const closeAlertMessage = () => {
 	$('body').on('click', '#formMessageBtnClose', function(e) {
 		e.preventDefault()
